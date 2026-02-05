@@ -16,7 +16,14 @@ aggregates health metrics, and provides a public dashboard and triage pipeline.
 - **Transparency**: public health dashboard.
 - **Guardrails**: LLMs operate only on anonymized aggregates.
 
-## 3. Ingestion API
+## 3. Naming & Imports
+
+- Repo/package name: `smonitor-sentinel`
+- Public name: **SMonitor Sentinel** (Signal Monitor Sentinel)
+- Import (internal/admin only): `import smonitor_sentinel`
+- Do **not** document imports for end users.
+
+## 4. Ingestion API
 
 Minimal payload (safe schema):
 - `library`, `version`, `python_version`, `platform`
@@ -26,7 +33,7 @@ Minimal payload (safe schema):
 - `profile`
 - `performance` (aggregated)
 
-## 4. Processing Pipeline
+## 5. Processing Pipeline
 
 1. Validate schema
 2. Normalize and deduplicate
@@ -34,31 +41,46 @@ Minimal payload (safe schema):
 4. Emit summaries for dashboard
 5. Optional LLM triage on aggregates
 
-## 5. Dashboard
+## 6. Dashboard
 
 - Status by library and version
 - Top errors/warnings
 - Performance regressions
 - Trend charts
 
-## 6. LLM Triage (Optional)
+## 7. LLM Triage (Optional)
 
 - Inputs: aggregated, anonymized signals
 - Outputs: probable cause, suggested fix, impact
 - Human approval required before action
 
-## 7. Security & Privacy
+## 8. Auto-Issue Creation (Optional)
+
+- Sentinel may create GitHub issues for actionable, deduplicated errors.
+- **Opt-in** per repository.
+- **Rate-limited** and **deduplicated** by `code + trace_hash`.
+- Issues include:
+  - human-readable summary
+  - technical details
+  - JSON payload for agents
+
+**Auth model:**
+- Recommended: GitHub App "SMonitor Sentinel" (per-repo install)
+- Alternative: bot account + PAT
+
+## 9. Security & Privacy
 
 - Opt-in only
 - Strict schema validation
 - Rate limiting and abuse protection
 - Retention policy
 
-## 8. Roadmap
+## 10. Roadmap
 
 - Phase A: local bundle upload + ingestion API
 - Phase B: dashboard MVP
 - Phase C: LLM triage
+- Phase D: auto-issue creation
 
 ---
 
